@@ -1,0 +1,40 @@
+
+Traer una categoria parametro "Cintas"
+	 categoria = Category.objects.get(name="Cintas")
+
+Traer todos los productos de una categoria, parametro objeto categoria
+	 productos = Product.objects.all().filter(category=categoria)
+
+Traer producto por id
+	productos = Product.objects.get(id=2)
+
+Traer productos 
+	productos = Product.objects.all()
+
+Traer un cliente
+	cliente = Client.objects.get(client=1)
+
+Crear una Factura
+	factura = Bill(client=cliente, date="2019-04-09", status="new")
+	factura.save()
+
+Crear un detalle(Agregar al carro)
+	 detalle = Detail(bill=factura, Product=productos, description="Compra 2", quantity=1)
+	 detalle.save()
+
+Ver todas las Facturas
+	Facturas = Bill.objects.all()
+
+ver factura con estado de nuevo y sus articulos agregados
+	factura = Bill.objects.get(client=cliente, status="new")
+	detalle = Detail.objects.filter(bill=factura)
+
+Cambiar estado de Factura a pagado
+	factura = Bill.objects.get(client=cliente, status="new")
+	factura.status="pagado"
+	factura.save()
+
+ver Facturas y sus detalles
+	facturas =Bill.objects.all().filter(client=cliente)
+	detalle = Detail.objects.all().filter(bill=facturas[2])
+

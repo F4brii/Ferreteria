@@ -27,7 +27,7 @@ class Bill(models.Model):
 	status = models.CharField("Estado_Factura", default = 'new', max_length=50)
 
 	def __str__(self):
-   		return self.status
+   		return self.client.client.username
 
 
 class Detail(models.Model):
