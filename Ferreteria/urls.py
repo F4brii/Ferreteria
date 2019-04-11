@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from productos.views import Catalog, shopping_cart
+from clientes.views import Activity_User
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -23,5 +24,12 @@ urlpatterns = [
     		path('', Catalog.view_catalog),
     		path('category/<str:categoria>/', Catalog.view_category_catalog),
     		path('cart/', shopping_cart.view_shopping_cart),
+    		path('addcart/<int:id_product>/', shopping_cart.add_cart),
+    		path('paycart/', shopping_cart.pay_cart),
+    	])),
+    path('client/', include([
+    		path('bills/', Activity_User.view_bill),
+    		path('bills/detail/<int:id_bill>/', Activity_User.view_detail),
+    		path('bills/pdf/', Activity_User.create_Pdf),
     	])),
 ]

@@ -10,6 +10,10 @@ class Category(models.Model):
 	def __str__(self):
    		return self.name
 
+	class Meta:
+		verbose_name_plural = "Categorias"
+		verbose_name = "Categoria"
+
 
 class Product(models.Model):
 	image = models.ImageField("Imagen_Producto", upload_to='Productos')
@@ -20,6 +24,10 @@ class Product(models.Model):
 	def __str__(self):
    		return self.description
 
+	class Meta:
+		verbose_name_plural = "Productos"
+		verbose_name = "Producto"
+
 
 class Bill(models.Model):
 	client = models.ForeignKey(Client, on_delete=models.CASCADE, verbose_name="Cliente")
@@ -28,6 +36,10 @@ class Bill(models.Model):
 
 	def __str__(self):
    		return self.client.client.username
+
+	class Meta:
+		verbose_name_plural = "Facturas"
+		verbose_name = "Factura"
 
 
 class Detail(models.Model):
@@ -38,6 +50,11 @@ class Detail(models.Model):
 
 	def __str__(self):
    		return self.description
+
+
+	class Meta:
+		verbose_name_plural = "Detalles"
+		verbose_name = "Detalle"
 
 
 		

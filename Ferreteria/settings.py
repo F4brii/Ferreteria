@@ -123,4 +123,14 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT  = os.path.join(BASE_DIR, 'media')
 
+#Configuracion para enviar mensajes por correo
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'fcaicedom28@gmail.com'
+EMAIL_HOST_PASSWORD = 'assemblix86'
+
+EMAIL_USE_TLS = True
+
+EMAIL_PORT = 587
+
 

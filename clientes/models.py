@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-
 # Create your models here.
 
 class Client(models.Model):
@@ -9,3 +8,6 @@ class Client(models.Model):
 	def __str__(self):
    		return self.client.username
 
+	class Meta:
+		verbose_name_plural = "Clientes"
+		verbose_name = "Cliente"
