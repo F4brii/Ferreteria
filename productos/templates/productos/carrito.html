@@ -1,0 +1,10 @@
+<p>{{cliente.client.username}}</p>
+<p>{{factura.status}}</p>
+
+<ul>
+	{% for detalle in detalles %}
+		<li>id: {{detalle.Product.id}} descripcion: {{detalle.Product.description}} precio: {{detalle.Product.price}}</li>
+	{% endfor %}
+</ul>
+
+<p>{{total}}</p>
