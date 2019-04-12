@@ -31,5 +31,7 @@ urlpatterns = [
     		path('bills/', Activity_User.view_bill),
     		path('bills/detail/<int:id_bill>/', Activity_User.view_detail),
     		path('bills/pdf/', Activity_User.create_Pdf),
+    		path('login/', Activity_User.sing_in),
+    		path('logout/', Activity_User.logout),
     	])),
 ]

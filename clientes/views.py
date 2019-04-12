@@ -4,6 +4,7 @@ from django.views import View
 from .models import Client
 from productos.models import Bill, Detail
 from reportlab.pdfgen import canvas
+from django.contrib.auth import authenticate, login, logout
 # Create your views here.
 
 class Activity_User(View):
@@ -24,6 +25,30 @@ class Activity_User(View):
 		bills =  Bill.objects.filter(client = client)
 		create_pdf(bills)
 		return HttpResponse("Se creo el pdf")
+
+	def sing_in(request):
+		username = "fabricio"
+		password = "Assemblix86"
+		user = authenticate(username=username, password=password)
+		if user is not None:
+			login(request, user)
+			client = Client.objects.get(client=user)
+			bill = Bill(client=client, status = "new")
+			bill.save()
+			return HttpResponse("Bienvenido")
+		else:
+			return HttpResponse("Error")
+
+	def logout(request):
+		client = Client.objects.get(client=request.user.id)
+		bill = Bill.objects.get(client=client, status = "new")
+		if(Detail.objects.filter(bill=bill).count() != 0):
+			return HttpResponse("Tiene una transacion pendiente")
+		else:
+			bill.status = 'cancelado'
+			bill.save()
+			logout(request)
+			return HttpResponse("cierre correcto")
 
 def create_pdf(bills):
 	x = 800
