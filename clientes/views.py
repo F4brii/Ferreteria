@@ -5,6 +5,9 @@ from .models import Client
 from productos.models import Bill, Detail
 from reportlab.pdfgen import canvas
 from django.contrib.auth import authenticate, login, logout
+from .forms import LoginForm, UserForm, ContactForm
+from django.contrib.auth.models import User
+from django.core.mail import send_mail
 # Create your views here.
 
 class Activity_User(View):
@@ -27,17 +30,24 @@ class Activity_User(View):
 		return HttpResponse("Se creo el pdf")
 
 	def sing_in(request):
-		username = "fabricio"
-		password = "Assemblix86"
-		user = authenticate(username=username, password=password)
-		if user is not None:
-			login(request, user)
-			client = Client.objects.get(client=user)
-			bill = Bill(client=client, status = "new")
-			bill.save()
-			return HttpResponse("Bienvenido")
+		if request.method == 'POST':
+			form = LoginForm(request.POST)
+			if form.is_valid():
+				user = authenticate(username=form.cleaned_data.get('username'), password=form.cleaned_data.get('password'))
+				if user is not None:
+					login(request, user)
+					client = Client.objects.get(client=user)
+					bill = Bill(client=client, status = "new")
+					bill.save()
+					return HttpResponse("Bienvenido")
+				else:
+					return HttpResponse("Error")
+			else: 
+				form = LoginForm()
+				return render(request, 'clientes/login.html', { 'form' : form })
 		else:
-			return HttpResponse("Error")
+			form = LoginForm()
+			return render(request, 'clientes/login.html', { 'form' : form })		
 
 	def logout(request):
 		client = Client.objects.get(client=request.user.id)
@@ -49,6 +59,35 @@ class Activity_User(View):
 			bill.save()
 			logout(request)
 			return HttpResponse("cierre correcto")
+
+
+	def updateUser(request):
+		if request.method == 'POST':
+			usuario = Client.objects.get(client=request.user.id)
+			form = UserForm(data = request.POST or None, instance=usuario.client)
+			if form.is_valid():
+				form.save()
+				return HttpResponse('Update')
+			else:
+				return HttpResponse('No es valido')
+		else:
+			usuario = Client.objects.get(client=request.user.id)
+			form = UserForm(instance=usuario.client)
+			return render(request, 'clientes/update.html', { 'form' : form })
+
+	def createUser(request):
+		if request.method == 'POST':
+			form = UserForm(request.POST)
+			if form.is_valid():
+				form.save()
+				client = Client(client = User.objects.get(username=form.cleaned_data.get('username')))
+				client.save()
+				login(request, client.client)
+				return HttpResponse('Se creo')
+		else:
+			form = UserForm()
+			return render(request, 'clientes/create.html', { 'form' : form })
+
 
 def create_pdf(bills):
 	x = 800
@@ -68,3 +107,19 @@ def writer_str(bill):
 	for detail in details:
 		msj = msj + '\n' + str(detail.Product.id) + " " + detail.Product.description
 	return msj+'\n\n'
+
+def contactUser(request):
+	if request.method == 'POST':
+		form = ContactForm(request.POST)
+		if form.is_valid():
+			send_mail(
+    			'Asunto prueba',
+    			form.cleaned_data.get('message'),
+    			'fcaicedom28@gmail.com',
+    			['fabricio.caicedo@unillanos.edu.co'],
+    			fail_silently=False,
+			)
+			return HttpResponse('Se envio')
+	else:
+		form = ContactForm()
+		return render(request, 'clientes/contact.html', { 'form' : form })

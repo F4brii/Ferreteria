@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from productos.views import Catalog, shopping_cart
-from clientes.views import Activity_User
+from clientes.views import Activity_User, contactUser
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,5 +33,8 @@ urlpatterns = [
     		path('bills/pdf/', Activity_User.create_Pdf),
     		path('login/', Activity_User.sing_in),
     		path('logout/', Activity_User.logout),
+    		path('update/', Activity_User.updateUser),
+    		path('create/', Activity_User.createUser),
+    		path('contact/', contactUser),
     	])),
 ]
