@@ -70,3 +70,6 @@ def create_string(details):
 	total = calculate_total(details)
 	list_products = list_products + '\n\n' + "Total a pagar: $" + str(total)
 	return list_products
+
+def Index(request):
+	return render(request, 'productos/contact.html')

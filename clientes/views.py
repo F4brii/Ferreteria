@@ -88,6 +88,22 @@ class Activity_User(View):
 			form = UserForm()
 			return render(request, 'clientes/create.html', { 'form' : form })
 
+	def contactUser(request):
+		if request.method == 'POST':
+			form = ContactForm(request.POST)
+			if form.is_valid():
+				send_mail(
+	    			'Asunto prueba',
+	    			form.cleaned_data.get('message'),
+	    			'fcaicedom28@gmail.com',
+	    			['fabricio.caicedo@unillanos.edu.co'],
+	    			fail_silently=False,
+				)
+				return HttpResponse('Se envio')
+		else:
+			form = ContactForm()
+			return render(request, 'clientes/contact.html', { 'form' : form })
+
 
 def create_pdf(bills):
 	x = 800
@@ -108,18 +124,3 @@ def writer_str(bill):
 		msj = msj + '\n' + str(detail.Product.id) + " " + detail.Product.description
 	return msj+'\n\n'
 
-def contactUser(request):
-	if request.method == 'POST':
-		form = ContactForm(request.POST)
-		if form.is_valid():
-			send_mail(
-    			'Asunto prueba',
-    			form.cleaned_data.get('message'),
-    			'fcaicedom28@gmail.com',
-    			['fabricio.caicedo@unillanos.edu.co'],
-    			fail_silently=False,
-			)
-			return HttpResponse('Se envio')
-	else:
-		form = ContactForm()
-		return render(request, 'clientes/contact.html', { 'form' : form })
