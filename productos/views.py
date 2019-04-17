@@ -16,7 +16,8 @@ class Catalog(View):
 		page = request.GET.get('page')
 		products = paginator.get_page(page)
 		if request.user.is_authenticated:
-			contexto = { 'productos': products, 'categoria' : "All", 'email' : user_activate(request.user.id) }
+			contexto = { 'productos': products, 'categoria' : "All", 'email' : user_activate(request.user.id),
+			'num_product' : total_detail(request.user.id), 'details' : view_details(request.user.id) }
 		else:
 			contexto = { 'productos': products, 'categoria' : "All" }
 		return render(request, 'productos/catalogue.html', contexto )
@@ -43,7 +44,7 @@ class shopping_cart(View):
 				bill = Bill.objects.get(client=client, status="new")
 				details = Detail.objects.filter(bill=bill)
 				total = calculate_total(details)
-				contexto = { 'cliente' : client, 'factura' : bill, 'detalles' : details, 'total' : total }
+				contexto = { 'cliente' : client, 'factura' : bill, 'detalles' : details, 'total' : total, 'num_product' : details.count() }
 				return render(request, 'productos/cart.html', contexto )
 			else:
 				return render(request, 'productos/cart.html' )
@@ -106,10 +107,35 @@ def user_activate(idUser):
 	return str(client.client.email)
 
 def Index(request):
-	return render(request, 'productos/index.html')
+	if request.user.is_authenticated:
+		return render(request, 'productos/index.html', { 'email' : user_activate(request.user.id),
+		 'num_product' : total_detail(request.user.id), 'details' : view_details(request.user.id) })
+	else:
+		return render(request, 'productos/index.html')
 
 def About(request):
-	return render(request, 'productos/about.html')
+	if request.user.is_authenticated:
+		return render(request, 'productos/about.html', { 'email' : user_activate(request.user.id),
+		 'num_product' : total_detail(request.user.id), 'details' : view_details(request.user.id) })
+	else:
+		return render(request, 'productos/about.html')
 
 def Contact(request):
-	return render(request, 'productos/contact.html')
+	if request.user.is_authenticated:
+		return render(request, 'productos/contact.html', { 'email' : user_activate(request.user.id),
+		'num_product' : total_detail(request.user.id), 'details' : view_details(request.user.id) })
+	else:
+		return render(request, 'productos/contact.html')
+
+def total_detail(idUser):
+	client = Client.objects.get(client=idUser)
+	bill = Bill.objects.get(client=client, status="new")
+	details = Detail.objects.filter(bill=bill).count()
+	return details
+
+def view_details(idUser):
+	client = Client.objects.get(client=idUser)
+	bill = Bill.objects.get(client=client, status="new")
+	details = Detail.objects.filter(bill=bill)
+	print(details)
+	return details

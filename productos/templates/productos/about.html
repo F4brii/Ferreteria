@@ -1,13 +1,81 @@
 {% extends "productos/base.html" %}
 {% load static %}
+{% block correo %} 
+	{% if request.user.is_authenticated %}
+		<p>
+			<a href="#">{{ email }}</a>
+		</p> 
+		<h8><a href="{% url 'cerrar' %}">Cerrar sesion</a></h8>
+	{% endif %}
+{% endblock %}
+{% block emailMovil %} 
+	{% if request.user.is_authenticated %}
+		<p>
+			<a href="#">{{ email }}</a>
+		</p> 
+		<h8><a href="{% url 'cerrar' %}">Cerrar sesion</a></h8>
+	{% endif %}
+{% endblock %}
+{% block numCart %}
+	<span class="header-icons-noti">{{num_product}}</span>
+{% endblock %}
+{% block cart %}
+	<ul class="header-cart-wrapitem">
+		{% for detail in details %}
+			<li class="header-cart-item">
+				<div class="header-cart-item-img">
+					<img src="{{ detail.Product.image.url }}" alt="IMG">
+				</div>
 
+				<div class="header-cart-item-txt">
+					<a href="#" class="header-cart-item-name">
+						{{ detail.Product.description }}
+					</a>
+
+					<span class="header-cart-item-info">
+						{{ detail.quantity }} x ${{ detail.Product.price }}
+					</span>
+				</div>
+			</li>
+		{% endfor %}
+	</ul>			
+{% endblock %}
+{% block numbCartMovil %}
+	<span class="header-icons-noti">{{num_product}}</span>
+{% endblock %}
+{% block cartMovil %}
+	<ul class="header-cart-wrapitem">
+		{% for detail in details %}
+			<li class="header-cart-item">
+				<div class="header-cart-item-img">
+					<img src="{{ detail.Product.image.url }}" alt="IMG">
+				</div>
+
+				<div class="header-cart-item-txt">
+					<a href="#" class="header-cart-item-name">
+						{{ detail.Product.description }}
+					</a>
+
+					<span class="header-cart-item-info">
+						{{ detail.quantity }} x ${{ detail.Product.price }}
+					</span>
+				</div>
+			</li>
+		{% endfor %}
+	</ul>		
+{% endblock %}
 {% block Cuerpo %}
+	<section class="bg-title-page p-t-50 p-b-40 flex-col-c-m" style="background-image: url({% static 'productos/images/descarga.jpg' %});">
+		<h2 class="l-text2 t-center">
+			Herramientas para todo!.
+		</h2>
+	</section>
 	<section class="bgwhite p-t-66 p-b-38">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-4 p-b-30">
 					<div class="hov-img-zoom">
-						<img src="{% static 'productos/images/banner-14.jpg' %}" alt="IMG-ABOUT">
+						<img src="{% static 'productos/images/icons/2.jpg' %}" alt="IMG-ABOUT">
 					</div>
 				</div>
 
@@ -17,17 +85,20 @@
 					</h3>
 
 					<p class="p-b-28">
-						Phasellus egestas nisi nisi, lobortis ultricies risus semper nec. Vestibulum pharetra ac ante ut pellentesque. Curabitur fringilla dolor quis lorem accumsan, vitae molestie urna dapibus. Pellentesque porta est ac neque bibendum viverra. Vivamus lobortis magna ut interdum laoreet. Donec gravida lorem elit, quis condimentum ex semper sit amet. Fusce eget ligula magna. Aliquam aliquam imperdiet sodales. Ut fringilla turpis in vehicula vehicula. Pellentesque congue ac orci ut gravida. Aliquam erat volutpat. Donec iaculis lectus a arcu facilisis, eu sodales lectus sagittis. Etiam pellentesque, magna vel dictum rutrum, neque justo eleifend elit, vel tincidunt erat arcu ut sem. Sed rutrum, turpis ut commodo efficitur, quam velit convallis ipsum, et maximus enim ligula ac ligula. Vivamus tristique vulputate ultricies. Sed vitae ultrices orci.
+						Sodimac Colombia es una empresa internacional 51% de la organización Corona y 49% de la organización Falabella de chile. Se estableció en Colombia en 1993 con la apertura de su primer almacén, Casa de la Ferreteria S.A “el especialista”. A partir de este momento SODIMAC COLOMBIA arranca su expansión como una gran cadena dedicada al mejoramiento del hogar en el país.
+					</p>
+					<p class="p-b-28">
+						Nuestro socio Corona tiene más de 125 años de historia empresarial, primero en Colombia y hoy con presencia internacional. Produce principalmente: loza, porcelana sanitaria y cerámica, grifería y materias primas para la industria cerámica. Exporta a 37 países. Adicionalmente tiene operaciones de venta al detal (retail) con los almacenes Corona y con su participación en Sodimac Colombia. En su internacionalización cuenta con plantas en Estados Unidos y oficinas en China. Corona se destaca por su avanzada gestión estratégica, administrativa y por tener una cultura centrada en total respeto por la gente y su desarrollo.
+					</p>
+					<p class="p-b-28">
+						Corona es uno de los grupos económicos más grandes y tradicionales de Colombia.
 					</p>
 
 					<div class="bo13 p-l-29 m-l-9 p-b-10">
 						<p class="p-b-11">
-							Creativity is just connecting things. When you ask creative people how they did something, they feel a little guilty because they didn't really do it, they just saw something. It seemed obvious to them after a while.
+							Ser la empresa líder de proyectos para el hogar y construcción, que mediante el mejoramiento de la calidad de vida, sea la más querida, admirada y respectada por la comunidad, los clientes, los trabajadores y los provee- dores en América.
 						</p>
 
-						<span class="s-text7">
-							- Steve Job’s
-						</span>
 					</div>
 				</div>
 			</div>

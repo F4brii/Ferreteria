@@ -8,8 +8,64 @@
 		<h8><a href="{% url 'cerrar' %}">Cerrar sesion</a></h8>
 	{% endif %}
 {% endblock %}
+{% block emailMovil %} 
+	{% if request.user.is_authenticated %}
+		<p>
+			<a href="#">{{ email }}</a>
+		</p> 
+		<h8><a href="{% url 'cerrar' %}">Cerrar sesion</a></h8>
+	{% endif %}
+{% endblock %}
+{% block numCart %}
+	<span class="header-icons-noti">{{num_product}}</span>
+{% endblock %}
+{% block cart %}
+	<ul class="header-cart-wrapitem">
+		{% for detail in details %}
+			<li class="header-cart-item">
+				<div class="header-cart-item-img">
+					<img src="{{ detail.Product.image.url }}" alt="IMG">
+				</div>
+
+				<div class="header-cart-item-txt">
+					<a href="#" class="header-cart-item-name">
+						{{ detail.Product.description }}
+					</a>
+
+					<span class="header-cart-item-info">
+						{{ detail.quantity }} x ${{ detail.Product.price }}
+					</span>
+				</div>
+			</li>
+		{% endfor %}
+	</ul>			
+{% endblock %}
+{% block numbCartMovil %}
+	<span class="header-icons-noti">{{num_product}}</span>
+{% endblock %}
+{% block cartMovil %}
+	<ul class="header-cart-wrapitem">
+		{% for detail in details %}
+			<li class="header-cart-item">
+				<div class="header-cart-item-img">
+					<img src="{{ detail.Product.image.url }}" alt="IMG">
+				</div>
+
+				<div class="header-cart-item-txt">
+					<a href="#" class="header-cart-item-name">
+						{{ detail.Product.description }}
+					</a>
+
+					<span class="header-cart-item-info">
+						{{ detail.quantity }} x ${{ detail.Product.price }}
+					</span>
+				</div>
+			</li>
+		{% endfor %}
+	</ul>		
+{% endblock %}
 {% block Cuerpo %}
-	<section class="bg-title-page p-t-50 p-b-40 flex-col-c-m" style="background-image: url({% static 'productos/images/heading-pages-02.jpg' %});">
+	<section class="bg-title-page p-t-50 p-b-40 flex-col-c-m" style="background-image: url({% static 'productos/images/descarga.jpg' %});">
 		<h2 class="l-text2 t-center">
 			Herramientas para todo!.
 		</h2>
@@ -158,8 +214,8 @@
 				<div class="pagination">
 	    			<span class="step-links">
 	        			{% if productos.has_previous %}
-	            			<a href="?page=1">&laquo; first</a>
-	            			<a href="?page={{ productos.previous_page_number }}">previous</a>
+	            			<a href="?page=1">&laquo; Primera</a>
+	            			<a href="?page={{ productos.previous_page_number }}">Anterior</a>
 	        			{% endif %}
 
 	       				<span class="current">
@@ -167,8 +223,8 @@
 	       			 	</span>
 
 				        {% if productos.has_next %}
-				            <a href="?page={{ productos.next_page_number }}">next</a>
-				            <a href="?page={{ productos.paginator.num_pages }}">last &raquo;</a>
+				            <a href="?page={{ productos.next_page_number }}">Siguiente</a>
+				            <a href="?page={{ productos.paginator.num_pages }}">Ultima &raquo;</a>
 				        {% endif %}
 	    			</span>
 				</div>

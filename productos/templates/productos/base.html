@@ -45,10 +45,10 @@
 		<div class="container-menu-header">
 			<div class="topbar">
 				<div class="topbar-social">
-					<a href="#" class="topbar-social-item fa fa-facebook"></a>
-					<a href="#" class="topbar-social-item fa fa-instagram"></a>
-					<a href="#" class="topbar-social-item fa fa-pinterest-p"></a>
-					<a href="#" class="topbar-social-item fa fa-youtube-play"></a>
+					<a href="https://www.facebook.com" class="topbar-social-item fa fa-facebook"></a>
+					<a href="https://www.instagram.com" class="topbar-social-item fa fa-instagram"></a>
+					<a href="https://co.pinterest.com/" class="topbar-social-item fa fa-pinterest-p"></a>
+					<a href="https://www.youtube.com" class="topbar-social-item fa fa-youtube-play"></a>
 				</div>
 
 				<div class="topbar-child2">
@@ -61,7 +61,7 @@
 
 			<div class="wrap_header">
 				<!-- Logo -->
-				<a href="index.html" class="logo">
+				<a href="{% url 'acerca' %}" class="logo">
 					<img src="{% static 'productos/images/icons/logo.png' %}" alt="IMG-LOGO">
 				</a>
 				{% block menu %}
@@ -108,13 +108,13 @@
 									<div class="header-cart-wrapbtn">
 										<!-- Button -->
 										<a href="#" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
-											Sing in
+											Iniciar 
 										</a>
 									</div>
 									<div class="header-cart-wrapbtn">
 										<!-- Button -->
 										<a href="#" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
-											Sing up
+											Registrarse
 										</a>
 									</div>
 								</div>	
@@ -125,26 +125,24 @@
 					<div class="header-wrapicon2">
 						<img src="{% static 'productos/images/icons/icon-header-02.png' %}" class="header-icon1 js-show-header-dropdown" alt="ICON">
 						{% block numCart %}
-						<span class="header-icons-noti">0</span>
+						
 						{% endblock %}
 						<!-- Header cart noti -->
 						<div class="header-cart header-dropdown">
 							{% block cart %}
-							<ul class="header-cart-wrapitem">
-								
-							</ul>
+							
 							{% endblock %}
 							<div class="header-cart-buttons">
 								<div class="header-cart-wrapbtn">
 									<!-- Button -->
-									<a href="cart.html" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
+									<a href="{% url 'cart' %}" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
 										Ver Carro
 									</a>
 								</div>
 
 								<div class="header-cart-wrapbtn">
 									<!-- Button -->
-									<a href="#" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
+									<a href="{% url 'pay' %}" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
 										Pagar
 									</a>
 								</div>
@@ -158,7 +156,7 @@
 		<!-- Header Mobile -->
 		<div class="wrap_header_mobile">
 			<!-- Logo moblie -->
-			<a href="index.html" class="logo-mobile">
+			<a href="{% url 'acerca' %}" class="logo-mobile">
 				<img src="{% static 'productos/images/icons/logo.png' %}" alt="IMG-LOGO">
 			</a>
 
@@ -166,35 +164,56 @@
 			<div class="btn-show-menu">
 				<!-- Header Icon mobile -->
 				<div class="header-icons-mobile">
-					<a href="#" class="header-wrapicon1 dis-block">
-						<img src="{% static 'productos/images/icons/icon-header-01.png' %}" class="header-icon1" alt="ICON">
-					</a>
+					{% if request.user.is_authenticated %}
+						<div class="header-wrapicon2">
+							<img src="{% static 'productos/images/icons/icon-header-01.png' %}" class="header-icon1 js-show-header-dropdown" alt="ICON">	
+							<span class="header-icons-noti">Si</span>						
+						</div>
+					{% else %}
+						<div class="header-wrapicon2">
+							<img src="{% static 'productos/images/icons/icon-header-01.png' %}" class="header-icon1 js-show-header-dropdown" alt="ICON">
+							<span class="header-icons-noti">No</span>
+							<div class="header-cart header-dropdown">
+								<div class="header-cart-buttons">
+									<div class="header-cart-wrapbtn">
+										<!-- Button -->
+										<a href="#" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
+											Iniciar 
+										</a>
+									</div>
+									<div class="header-cart-wrapbtn">
+										<!-- Button -->
+										<a href="#" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
+											Registrarse
+										</a>
+									</div>
+								</div>	
+							</div>
+						</div>
+					{% endif %}
 
 					<span class="linedivide2"></span>
 
 					<div class="header-wrapicon2">
 						<img src="{% static 'productos/images/icons/icon-header-02.png' %}" class="header-icon1 js-show-header-dropdown" alt="ICON">
 						{% block numbCartMovil %}
-						<span class="header-icons-noti">0</span>
+							
 						{% endblock %}
 						<!-- Header cart noti -->
 						<div class="header-cart header-dropdown">
 							{% block cartMovil %}
-							<ul class="header-cart-wrapitem">
-								
-							</ul>
 							{% endblock %}
 							<div class="header-cart-buttons">
 								<div class="header-cart-wrapbtn">
 									<!-- Button -->
-									<a href="cart.html" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
+									<a href="{% url 'cart' %}" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
 										Ver Carro
 									</a>
 								</div>
 
 								<div class="header-cart-wrapbtn">
 									<!-- Button -->
-									<a href="#" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
+									<a href="{% url 'pay' %}" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
 										Pagar
 									</a>
 								</div>
@@ -219,7 +238,6 @@
 						<div class="topbar-child2-mobile">
 							<span class="topbar-email">
 								{% block emailMovil %}
-								fashe@example.com
 								{% endblock %}
 							</span>
 						</div>
@@ -227,32 +245,32 @@
 
 					<li class="item-topbar-mobile p-l-10">
 						<div class="topbar-social-mobile">
-							<a href="#" class="topbar-social-item fa fa-facebook"></a>
-							<a href="#" class="topbar-social-item fa fa-instagram"></a>
-							<a href="#" class="topbar-social-item fa fa-pinterest-p"></a>
-							<a href="#" class="topbar-social-item fa fa-youtube-play"></a>
+							<a href="https://www.facebook.com" class="topbar-social-item fa fa-facebook"></a>
+							<a href="https://www.instagram.com" class="topbar-social-item fa fa-instagram"></a>
+							<a href="https://co.pinterest.com/" class="topbar-social-item fa fa-pinterest-p"></a>
+							<a href="https://www.youtube.com" class="topbar-social-item fa fa-youtube-play"></a>
 						</div>
 					</li>
 					{% block menuMovil %}
 					<li class="item-menu-mobile">
-						<a href="index.html">Inicio</a>
+						<a href="{% url 'index' %}">Inicio</a>
 					</li>
 
 					<li class="item-menu-mobile">
-						<a href="product.html">Catalogo</a>
+						<a href="{% url 'general' %}">Catalogo</a>
 					</li>
 
 
 					<li class="item-menu-mobile">
-						<a href="cart.html">Carrito</a>
+						<a href="{% url 'cart' %}">Carrito</a>
 					</li>
 
 					<li class="item-menu-mobile">
-						<a href="about.html">Acerca de</a>
+						<a href="{% url 'acerca' %}">Acerca de</a>
 					</li>
 
 					<li class="item-menu-mobile">
-						<a href="contact.html">Contacto</a>
+						<a href="{% url 'contacto' %}">Contacto</a>
 					</li>
 					{% endblock %}
 				</ul>
@@ -267,23 +285,23 @@
 	<footer class="bg6 p-t-45 p-b-43 p-l-45 p-r-45">
 		
 		<div class="t-center p-l-15 p-r-15">
-			<a href="#">
+			<a >
 				<img class="h-size2" src="{% static 'productos/images/icons/paypal.png' %}" alt="IMG-PAYPAL">
 			</a>
 
-			<a href="#">
+			<a >
 				<img class="h-size2" src="{% static 'productos/images/icons/visa.png' %}" alt="IMG-VISA">
 			</a>
 
-			<a href="#">
+			<a >
 				<img class="h-size2" src="{% static 'productos/images/icons/mastercard.png' %}" alt="IMG-MASTERCARD">
 			</a>
 
-			<a href="#">
+			<a >
 				<img class="h-size2" src="{% static 'productos/images/icons/express.png' %}" alt="IMG-EXPRESS">
 			</a>
 
-			<a href="#">
+			<a >
 				<img class="h-size2" src="{% static 'productos/images/icons/discover.png' %}" alt="IMG-DISCOVER">
 			</a>
 

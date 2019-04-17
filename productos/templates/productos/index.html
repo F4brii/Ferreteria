@@ -1,62 +1,125 @@
 {% extends "productos/base.html" %}
 {% load static %}
+{% block correo %} 
+	{% if request.user.is_authenticated %}
+		<p>
+			<a href="#">{{ email }}</a>
+		</p> 
+		<h8><a href="{% url 'cerrar' %}">Cerrar sesion</a></h8>
+	{% endif %}
+{% endblock %}
+{% block emailMovil %} 
+	{% if request.user.is_authenticated %}
+		<p>
+			<a href="#">{{ email }}</a>
+		</p> 
+		<h8><a href="{% url 'cerrar' %}">Cerrar sesion</a></h8>
+	{% endif %}
+{% endblock %}
+{% block numCart %}
+	<span class="header-icons-noti">{{num_product}}</span>
+{% endblock %}
+{% block cart %}
+	<ul class="header-cart-wrapitem">
+		{% for detail in details %}
+			<li class="header-cart-item">
+				<div class="header-cart-item-img">
+					<img src="{{ detail.Product.image.url }}" alt="IMG">
+				</div>
 
+				<div class="header-cart-item-txt">
+					<a href="#" class="header-cart-item-name">
+						{{ detail.Product.description }}
+					</a>
+
+					<span class="header-cart-item-info">
+						{{ detail.quantity }} x ${{ detail.Product.price }}
+					</span>
+				</div>
+			</li>
+		{% endfor %}
+	</ul>			
+{% endblock %}
+{% block numbCartMovil %}
+	<span class="header-icons-noti">{{num_product}}</span>
+{% endblock %}
+{% block cartMovil %}
+	<ul class="header-cart-wrapitem">
+		{% for detail in details %}
+			<li class="header-cart-item">
+				<div class="header-cart-item-img">
+					<img src="{{ detail.Product.image.url }}" alt="IMG">
+				</div>
+
+				<div class="header-cart-item-txt">
+					<a href="#" class="header-cart-item-name">
+						{{ detail.Product.description }}
+					</a>
+
+					<span class="header-cart-item-info">
+						{{ detail.quantity }} x ${{ detail.Product.price }}
+					</span>
+				</div>
+			</li>
+		{% endfor %}
+	</ul>		
+{% endblock %}
 {% block Cuerpo %}
 	<section class="slide1">
 		<div class="wrap-slick1">
 			<div class="slick1">
-				<div class="item-slick1 item1-slick1" style="background-image: url({% static 'productos/images/master-slide-02.jpg' %});">
+				<div class="item-slick1 item1-slick1" style="background-image: url({% static 'productos/images/descarga.jpg' %});">
 					<div class="wrap-content-slide1 sizefull flex-col-c-m p-l-15 p-r-15 p-t-150 p-b-170">
 						<span class="caption1-slide1 m-text1 t-center animated visible-false m-b-15" data-appear="fadeInDown">
-							Women Collection 2018
+							Ferreteria en casa
 						</span>
 
 						<h2 class="caption2-slide1 xl-text1 t-center animated visible-false m-b-37" data-appear="fadeInUp">
-							New arrivals
+							Nuevos Productos
 						</h2>
 
 						<div class="wrap-btn-slide1 w-size1 animated visible-false" data-appear="zoomIn">
 							<!-- Button -->
-							<a href="product.html" class="flex-c-m size2 bo-rad-23 s-text2 bgwhite hov1 trans-0-4">
-								Shop Now
+							<a href="{% url 'general' %}" class="flex-c-m size2 bo-rad-23 s-text2 bgwhite hov1 trans-0-4">
+								Compra ahora
 							</a>
 						</div>
 					</div>
 				</div>
 
-				<div class="item-slick1 item2-slick1" style="background-image: url({% static 'productos/images/master-slide-03.jpg' %});">
+				<div class="item-slick1 item2-slick1" style="background-image: url({% static 'productos/images/5.jpg' %});">
 					<div class="wrap-content-slide1 sizefull flex-col-c-m p-l-15 p-r-15 p-t-150 p-b-170">
 						<span class="caption1-slide1 m-text1 t-center animated visible-false m-b-15" data-appear="rollIn">
-							Women Collection 2018
+							Ferreteria en casa
 						</span>
 
 						<h2 class="caption2-slide1 xl-text1 t-center animated visible-false m-b-37" data-appear="lightSpeedIn">
-							New arrivals
+							Nuevos Productos
 						</h2>
 
 						<div class="wrap-btn-slide1 w-size1 animated visible-false" data-appear="slideInUp">
 							<!-- Button -->
-							<a href="product.html" class="flex-c-m size2 bo-rad-23 s-text2 bgwhite hov1 trans-0-4">
-								Shop Now
+							<a href="{% url 'general' %}" class="flex-c-m size2 bo-rad-23 s-text2 bgwhite hov1 trans-0-4">
+								Compra ahora
 							</a>
 						</div>
 					</div>
 				</div>
 
-				<div class="item-slick1 item3-slick1" style="background-image: url({% static 'productos/images/master-slide-04.jpg' %});">
+				<div class="item-slick1 item3-slick1" style="background-image: url({% static 'productos/images/4.jpg' %});">
 					<div class="wrap-content-slide1 sizefull flex-col-c-m p-l-15 p-r-15 p-t-150 p-b-170">
 						<span class="caption1-slide1 m-text1 t-center animated visible-false m-b-15" data-appear="rotateInDownLeft">
-							Women Collection 2018
+							Ferreteria en casa
 						</span>
 
 						<h2 class="caption2-slide1 xl-text1 t-center animated visible-false m-b-37" data-appear="rotateInUpRight">
-							New arrivals
+							Nuevos Productos
 						</h2>
 
 						<div class="wrap-btn-slide1 w-size1 animated visible-false" data-appear="rotateIn">
 							<!-- Button -->
-							<a href="product.html" class="flex-c-m size2 bo-rad-23 s-text2 bgwhite hov1 trans-0-4">
-								Shop Now
+							<a href="{% url 'general' %}" class="flex-c-m size2 bo-rad-23 s-text2 bgwhite hov1 trans-0-4">
+								Compra ahora
 							</a>
 						</div>
 					</div>
@@ -71,10 +134,6 @@
 				<h4 class="m-text12 t-center">
 					Free Delivery Worldwide
 				</h4>
-
-				<a href="#" class="s-text11 t-center">
-					Click here for more info
-				</a>
 			</div>
 
 			<div class="flex-col-c w-size5 p-l-15 p-r-15 p-t-16 p-b-15 bo2 respon2">
