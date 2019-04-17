@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views import View
 from .models import Client
@@ -39,9 +39,9 @@ class Activity_User(View):
 					client = Client.objects.get(client=user)
 					bill = Bill(client=client, status = "new")
 					bill.save()
-					return HttpResponse("Bienvenido")
+					return redirect('/product/')
 				else:
-					return HttpResponse("Error")
+					return redirect('/client/login/')
 			else: 
 				form = LoginForm()
 				return render(request, 'clientes/login.html', { 'form' : form })
@@ -53,12 +53,12 @@ class Activity_User(View):
 		client = Client.objects.get(client=request.user.id)
 		bill = Bill.objects.get(client=client, status = "new")
 		if(Detail.objects.filter(bill=bill).count() != 0):
-			return HttpResponse("Tiene una transacion pendiente")
+			return redirect('/product/cart/')
 		else:
 			bill.status = 'cancelado'
 			bill.save()
 			logout(request)
-			return HttpResponse("cierre correcto")
+			return redirect('/product/')
 
 
 	def updateUser(request):

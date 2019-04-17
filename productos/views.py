@@ -3,35 +3,52 @@ from django.http import HttpResponse
 from django.views import View
 from .models import Product, Category, Bill, Detail
 from clientes.models import Client
-
+from django.core.paginator import Paginator
 from django.core.mail import send_mail
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 class Catalog(View):
 
 	def view_catalog(request):
-		productos = Product.objects.all()
-		contexto = { 'productos': productos }
-		return render(request, 'productos/general.html', contexto )
+		products = Product.objects.all()
+		paginator = Paginator(products, 15)
+		page = request.GET.get('page')
+		products = paginator.get_page(page)
+		if request.user.is_authenticated:
+			contexto = { 'productos': products, 'categoria' : "All", 'email' : user_activate(request.user.id) }
+		else:
+			contexto = { 'productos': products, 'categoria' : "All" }
+		return render(request, 'productos/catalogue.html', contexto )
 
 
 	def view_category_catalog(request, categoria):
 		category = Category.objects.get(name=categoria)
 		products = Product.objects.all().filter(category=category)
-		contexto = { 'categoria' : category, 'productos' : products }
-		return render(request, 'productos/categoria.html', contexto )
+		paginator = Paginator(products, 15)
+		page = request.GET.get('page')
+		products = paginator.get_page(page)
+		if request.user.is_authenticated:
+			contexto = { 'categoria' : category, 'productos' : products, 'email' : user_activate(request.user.id) }
+		else:
+			contexto = { 'categoria' : category, 'productos' : products }
+		return render(request, 'productos/catalogue.html', contexto )
 
 
 class shopping_cart(View):
 		
 		def view_shopping_cart(request):
-			client = Client.objects.get(client=request.user.id)	
-			bill = Bill.objects.get(client=client, status="new")
-			details = Detail.objects.filter(bill=bill)
-			total = calculate_total(details)
-			contexto = { 'cliente' : client, 'factura' : bill, 'detalles' : details, 'total' : total }
-			return render(request, 'productos/carrito.html', contexto )
+			if request.user.is_authenticated:
+				client = Client.objects.get(client=request.user.id)	
+				bill = Bill.objects.get(client=client, status="new")
+				details = Detail.objects.filter(bill=bill)
+				total = calculate_total(details)
+				contexto = { 'cliente' : client, 'factura' : bill, 'detalles' : details, 'total' : total }
+				return render(request, 'productos/cart.html', contexto )
+			else:
+				return render(request, 'productos/cart.html' )
 
+		@login_required(login_url='/client/login/')
 		def add_cart(request, id_product):
 			client = Client.objects.get(client=request.user.id)
 			bill = Bill.objects.get(client=client, status="new")
@@ -40,6 +57,7 @@ class shopping_cart(View):
 			detail.save()
 			return redirect('/product/cart')
 
+		@login_required(login_url='/client/login/')
 		def pay_cart(request):
 			client = Client.objects.get(client=request.user.id)	
 			bill = Bill.objects.get(client=client, status="new")
@@ -53,7 +71,19 @@ class shopping_cart(View):
     			['fabricio.caicedo@unillanos.edu.co'],
     			fail_silently=False,
 			)
-			return HttpResponse("Pago")
+			bill = Bill(client=client, status = "new")
+			bill.save()
+			return redirect('/product/cart')
+
+		def update_cart(request, ids, cantidades):
+			ids = ids.split('-')
+			cantidades = cantidades.split('-')
+			tama = len(ids)
+			for i in range(tama):
+				detail = Detail.objects.get(pk=ids[i])
+				detail.quantity = cantidades[i]
+				detail.save()
+			return redirect('/product/cart')
 
 
 		
@@ -71,5 +101,15 @@ def create_string(details):
 	list_products = list_products + '\n\n' + "Total a pagar: $" + str(total)
 	return list_products
 
+def user_activate(idUser):
+	client = Client.objects.get(client=idUser)
+	return str(client.client.email)
+
 def Index(request):
+	return render(request, 'productos/index.html')
+
+def About(request):
+	return render(request, 'productos/about.html')
+
+def Contact(request):
 	return render(request, 'productos/contact.html')

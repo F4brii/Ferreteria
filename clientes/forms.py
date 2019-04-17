@@ -3,8 +3,8 @@ from django.contrib.auth.models import User
 from .models import Client
 
 class LoginForm(forms.Form):
-	username = forms.CharField(label='Usuario', max_length=100)
-	password = forms.CharField(label ='Contrasena' ,widget=forms.PasswordInput)
+	username = forms.CharField(label='usuario:',max_length=15, widget=forms.TextInput(attrs={'class':'form-control'}))
+	password = forms.CharField(label='contrasena', widget=forms.PasswordInput(attrs={'class':'form-control'}))
 
 class UserForm(forms.ModelForm):
 	class Meta:

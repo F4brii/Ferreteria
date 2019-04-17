@@ -56,6 +56,7 @@
 						{% block correo %} fashe@example.com {% endblock %}
 					</span>
 				</div>
+
 			</div>
 
 			<div class="wrap_header">
@@ -69,23 +70,23 @@
 					<nav class="menu">
 						<ul class="main_menu">
 							<li>
-								<a href="index.html">Inicio</a>
+								<a href="{% url 'index' %}">Inicio</a>
 							</li>
 
 							<li>
-								<a href="product.html">Catalogo</a>
+								<a href="{% url 'general' %}">Catalogo</a>
 							</li>
 
 							<li>
-								<a href="cart.html">Carrito</a>
+								<a href="{% url 'cart' %}">Carrito</a>
 							</li>
 
 							<li>
-								<a href="about.html">Acerca de</a>
+								<a href="{% url 'acerca' %}">Acerca de</a>
 							</li>
 
 							<li>
-								<a href="contact.html">Contacto</a>
+								<a href="{% url 'contacto' %}">Contacto</a>
 							</li>
 						</ul>
 					</nav>
@@ -93,12 +94,34 @@
 				{% endblock %}
 				<!-- Header Icon -->
 				<div class="header-icons">
-					<a href="#" class="header-wrapicon1 dis-block">
-						<img src="{% static 'productos/images/icons/icon-header-01.png' %}" class="header-icon1" alt="ICON">
-					</a>
-
+					{% if request.user.is_authenticated %}
+						<div class="header-wrapicon2">
+							<img src="{% static 'productos/images/icons/icon-header-01.png' %}" class="header-icon1 js-show-header-dropdown" alt="ICON">	
+							<span class="header-icons-noti">Si</span>						
+						</div>
+					{% else %}
+						<div class="header-wrapicon2">
+							<img src="{% static 'productos/images/icons/icon-header-01.png' %}" class="header-icon1 js-show-header-dropdown" alt="ICON">
+							<span class="header-icons-noti">No</span>
+							<div class="header-cart header-dropdown">
+								<div class="header-cart-buttons">
+									<div class="header-cart-wrapbtn">
+										<!-- Button -->
+										<a href="#" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
+											Sing in
+										</a>
+									</div>
+									<div class="header-cart-wrapbtn">
+										<!-- Button -->
+										<a href="#" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
+											Sing up
+										</a>
+									</div>
+								</div>	
+							</div>
+						</div>
+					{% endif %}
 					<span class="linedivide1"></span>
-
 					<div class="header-wrapicon2">
 						<img src="{% static 'productos/images/icons/icon-header-02.png' %}" class="header-icon1 js-show-header-dropdown" alt="ICON">
 						{% block numCart %}
@@ -242,6 +265,7 @@
 
 	<!-- Footer -->
 	<footer class="bg6 p-t-45 p-b-43 p-l-45 p-r-45">
+		
 		<div class="t-center p-l-15 p-r-15">
 			<a href="#">
 				<img class="h-size2" src="{% static 'productos/images/icons/paypal.png' %}" alt="IMG-PAYPAL">
@@ -321,6 +345,35 @@
 				swal(nameProduct, "is added to wishlist !", "success");
 			});
 		});
+	</script>
+	<script type="text/javascript">
+		function restar(id){
+			var nume = parseInt(document.getElementById(id).value)-1;
+			document.getElementById(id).setAttribute("value",nume);
+		}
+
+		function aumentar(id){		
+			var nume = parseInt(document.getElementById(id).value)+1;
+			document.getElementById(id).setAttribute("value",nume);
+		}
+
+	</script>
+	<script type="text/javascript" >
+		function llamar(){			
+			formulario = document.getElementById("forCarro")
+			tabla = document.getElementById("carrito")
+			inpts = tabla.getElementsByTagName("input")
+			ids = inpts[0].getAttribute("id")
+			cantidades = inpts[0].getAttribute("value")
+			for (var i = 1; i < inpts.length; i++) {
+				ids = ids + "-" + inpts[i].getAttribute("id")
+				cantidades = cantidades + "-" + inpts[i].getAttribute("value")
+			}			
+			url = "{% url 'update' 'ids' 'cantidades' %}"			
+			url = url.replace("ids", ids)
+			url = url.replace("cantidades", cantidades)
+			formulario.setAttribute('action', url)
+		}
 	</script>
 
 <!--===============================================================================================-->

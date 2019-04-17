@@ -15,27 +15,32 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from productos.views import Catalog, shopping_cart, Index
+from productos.views import Catalog, shopping_cart, Index, About, Contact
 from clientes.views import Activity_User
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('index/', Index),
+    path('index/', Index, name = 'index'),
     path('product/', include([
-    		path('', Catalog.view_catalog),
-    		path('category/<str:categoria>/', Catalog.view_category_catalog),
-    		path('cart/', shopping_cart.view_shopping_cart),
-    		path('addcart/<int:id_product>/', shopping_cart.add_cart),
-    		path('paycart/', shopping_cart.pay_cart),
+    		path('', Catalog.view_catalog, name='general'),
+    		path('category/<str:categoria>/', Catalog.view_category_catalog, name='category'),
+    		path('cart/', shopping_cart.view_shopping_cart, name='cart'),
+    		path('addcart/<int:id_product>/', shopping_cart.add_cart, name='addcart'),
+    		path('paycart/', shopping_cart.pay_cart, name='pay'),
+            path('update/<slug:ids>/<slug:cantidades>/', shopping_cart.update_cart, name = 'update'),
     	])),
+    path('about/', About, name = 'acerca'),
     path('client/', include([
     		path('bills/', Activity_User.view_bill),
     		path('bills/detail/<int:id_bill>/', Activity_User.view_detail),
     		path('bills/pdf/', Activity_User.create_Pdf),
     		path('login/', Activity_User.sing_in),
-    		path('logout/', Activity_User.logout),
+    		path('logout/', Activity_User.logout, name ='cerrar'),
     		path('update/', Activity_User.updateUser),
     		path('create/', Activity_User.createUser),
     		path('contact/', Activity_User.contactUser),
     	])),
-]
+    path('contact/', Contact, name = 'contacto'),
+]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
