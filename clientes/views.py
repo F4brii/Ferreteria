@@ -124,3 +124,5 @@ def writer_str(bill):
 		msj = msj + '\n' + str(detail.Product.id) + " " + detail.Product.description
 	return msj+'\n\n'
 
+def das(request):
+	return render(request, 'dashboard/list.html')

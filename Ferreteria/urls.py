@@ -16,11 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from productos.views import Catalog, shopping_cart, Index, About, Contact
-from clientes.views import Activity_User
+from clientes.views import Activity_User, das
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
+    path('das/', das),
     path('admin/', admin.site.urls),
     path('index/', Index, name = 'index'),
     path('product/', include([
@@ -36,7 +37,7 @@ urlpatterns = [
     		path('bills/', Activity_User.view_bill),
     		path('bills/detail/<int:id_bill>/', Activity_User.view_detail),
     		path('bills/pdf/', Activity_User.create_Pdf),
-    		path('login/', Activity_User.sing_in),
+    		path('login/', Activity_User.sing_in, name = 'login'),
     		path('logout/', Activity_User.logout, name ='cerrar'),
     		path('update/', Activity_User.updateUser),
     		path('create/', Activity_User.createUser),
